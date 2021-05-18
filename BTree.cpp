@@ -19,16 +19,17 @@ void BTree::insert(int val) {
         this->root->keys[0] = val;
         this->root->n++;
     } else {
-        if (this->root->n < (2*this->order-1)) {
-            if (this->root->isLeaf) {
-                int position = 0;
-                while (position < this->root->n && val > this->root->keys[position]) position++;
-                for (int i = this->root->n-1; i >= position; i--)
-                    this->root->keys[i + 1] = this->root->keys[i];
-                this->root->keys[position] = val;
-                this->root->n++;
-            }
-        }
+        if (this->root->n == 2*this->order-1) {
+            Node * new_node = new Node(this->order, false);
+            new_node->sons[0] = this->root;
+            new_node->split(this->root, 0);
+            int i = 0;
+            if (new_node->keys[0] < val)
+                new_node->sons[1]->add_non_full(val);
+            else
+                new_node->sons[0]->add_non_full(val);
+            this->root = new_node;
+        } else root->add_non_full(val);
     }
 }
 

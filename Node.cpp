@@ -47,5 +47,25 @@ void Node::print() {
 
 }
 
+void Node::add_non_full(int val) {
+    if (this->isLeaf) {
+        int position = 0;
+        while (position < this->n && val > this->keys[position]) position++;
+        for (int i = this->n-1; i >= position; i--)
+            this->keys[i + 1] = this->keys[i];
+        this->keys[position] = val;
+        this->n++;
+    } else {
+        int i;
+        for (i = this->n-1; i >= 0 && this->keys[i] > val; i--);
+        if (this->sons[i+1]->n == 2*this->t-1) {
+            this->split(this->sons[i+1], i+1);
+            if (this->keys[i+1] < val) i++;
+        }
+        this->sons[i+1]->add_non_full(val);
+    }
+
+}
+
 
 
