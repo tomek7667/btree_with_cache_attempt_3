@@ -7,7 +7,12 @@
 
 
 class Node {
-
+public:
+    Node ** p_to_children;
+    int * keys;
+    int n = 0;
+    bool isLeaf = true;
+    Node(int order);
 };
 
 
