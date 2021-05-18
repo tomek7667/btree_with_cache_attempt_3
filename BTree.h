@@ -17,6 +17,7 @@ public:
     // insertion functions
     void insert(int val);
     void print();
+    bool search(int val);
 };
 
 

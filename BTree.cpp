@@ -23,7 +23,6 @@ void BTree::insert(int val) {
             Node * new_node = new Node(this->order, false);
             new_node->sons[0] = this->root;
             new_node->split(this->root, 0);
-            int i = 0;
             if (new_node->keys[0] < val)
                 new_node->sons[1]->add_non_full(val);
             else
@@ -35,5 +34,18 @@ void BTree::insert(int val) {
 
 void BTree::print() {
     if (this->root != nullptr) this->root->print();
+}
+
+bool BTree::search(int val) {
+    Node * temp = root;
+    while (!temp->isLeaf) {
+        int position = 0;
+        while (position < temp->n && val > temp->keys[position]) position++;
+        if (val == temp->keys[position]) return true;
+        temp = temp->sons[position];
+    }
+    for (int i = 0; i < temp->n; i++)
+        if (temp->keys[i] == val) return true;
+    return false;
 }
 

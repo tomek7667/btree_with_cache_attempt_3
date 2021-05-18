@@ -17,7 +17,7 @@ int main() {
         } else if (choice == '?') {
             cin >> val;
             cout << val;
-            //tree.search(val) ? cout << " +\n" : cout << " -\n"; TODO:
+            tree.search(val) ? cout << " +\n" : cout << " -\n";
         } else if (choice == 'P') {
             tree.print();
             cout << endl;
