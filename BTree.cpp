@@ -12,10 +12,3 @@ BTree::BTree() {
     this->order = 0;
 }
 
-int BTree::maximumSize() const {
-    return 2 * this->order - 1;
-}
-
-int BTree::minimumSize() const {
-    return this->order - 1;
-}

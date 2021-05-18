@@ -8,11 +8,12 @@
 
 class Node {
 public:
-    Node ** p_to_children;
+    Node ** sons;
     int * keys;
-    int n = 0;
+    int n = 0, t = 0;
     bool isLeaf = true;
     Node(int order);
+    // constants
 };
 
 

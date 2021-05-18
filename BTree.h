@@ -13,9 +13,6 @@ public:
     int order = 0;
     BTree();
     BTree(int order);
-    // constants
-    int maximumSize() const;
-    int minimumSize() const;
     // insertion functions
 };
 
