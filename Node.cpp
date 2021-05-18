@@ -10,3 +10,12 @@ Node::Node(int order) {
     this->sons = new Node*[2 * this->t - 1];
 }
 
+
+
+int Node::position_of_key(int val) const {
+    for (int i = 0; i < this->n; i++) {
+        if (this->keys[i] == val) return i;
+    }
+    return -1;
+}
+

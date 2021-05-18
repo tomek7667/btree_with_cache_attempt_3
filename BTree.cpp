@@ -12,3 +12,7 @@ BTree::BTree() {
     this->order = 0;
 }
 
+void BTree::insert(int val) {
+
+}
+

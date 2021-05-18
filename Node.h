@@ -13,7 +13,8 @@ public:
     int n = 0, t = 0;
     bool isLeaf = true;
     Node(int order);
-    // constants
+
+    int position_of_key(int val) const;
 };
 
 

@@ -14,6 +14,7 @@ public:
     BTree();
     BTree(int order);
     // insertion functions
+    void insert(int val);
 };
 
 
