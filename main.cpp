@@ -13,13 +13,13 @@ int main() {
             tree = BTree(order);
         } else if (choice == 'A') {
             cin >> val;
-            //tree.insert(val); TODO:
+            tree.insert(val);
         } else if (choice == '?') {
             cin >> val;
             cout << val;
             //tree.search(val) ? cout << " +\n" : cout << " -\n"; TODO:
         } else if (choice == 'P') {
-            //tree.traverse(); TODO:
+            tree.print();
             cout << endl;
         } else if (choice == 'L') {
             cin >> order;

@@ -3,14 +3,14 @@
 //
 
 #include "Node.h"
+#include <iostream>
 
-Node::Node(int order) {
+Node::Node(int order, bool leaf) {
+    this->isLeaf = leaf;
     this->t = order;
     this->keys = new int[2 * this->t];
     this->sons = new Node*[2 * this->t - 1];
 }
-
-
 
 int Node::position_of_key(int val) const {
     for (int i = 0; i < this->n; i++) {
@@ -18,4 +18,34 @@ int Node::position_of_key(int val) const {
     }
     return -1;
 }
+
+void Node::split(Node *left, int i) {
+    Node * right = new Node(left->t, left->isLeaf);
+    right->n = left->t - 1;
+    left->n = left->t - 1;
+    for (int k = 0; k < left->t - 1; k++) {
+        right->keys[k] = left->keys[k+this->t];
+    }
+    if (!left->isLeaf)
+        for (int k = 0; k < this->t; k++)
+            right->sons[k] = left->sons[k+this->t];
+
+    for (int k = this->n; k >= i+1; k--) // shift all pointers to the right to create space
+        this->sons[k+1] = this->sons[k];
+    this->sons[i+1] = right;
+    this->keys[i] = left->keys[this->t-1];
+    this->n++;
+}
+
+void Node::print() {
+    int i;
+    for (i = 0; i < this->n; i++) {
+        if (!this->isLeaf) this->sons[i]->print();
+        std::cout << this->keys[i] << " ";
+    }
+    if (!this->isLeaf) this->sons[i]->print();
+
+}
+
+
 

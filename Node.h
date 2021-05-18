@@ -11,10 +11,11 @@ public:
     Node ** sons;
     int * keys;
     int n = 0, t = 0;
-    bool isLeaf = true;
-    Node(int order);
-
+    bool isLeaf;
+    Node(int order, bool leaf=true);
     int position_of_key(int val) const;
+    void print();
+    void split(Node * left, int i);
 };
 
 

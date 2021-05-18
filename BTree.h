@@ -11,10 +11,12 @@ class BTree {
 public:
     // Initializers
     int order = 0;
+    Node * root = nullptr;
     BTree();
     BTree(int order);
     // insertion functions
     void insert(int val);
+    void print();
 };
 
 
