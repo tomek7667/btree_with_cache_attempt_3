@@ -57,25 +57,63 @@ void BTree::loadTree() {
     string depths[1024];
     cin.ignore();
     getline(cin, input);
+    Node ** nds = new Node*[nodes];
+    int deepest = 0, ob = 0, cb = 0;
+    for (char c : input) {
+        ((ob - cb) > deepest) && (deepest = ob - cb);
+        depths[ob-cb] += c;
+        (c == '(') && ob++;
+        (c == ')') && cb++;
+    }
     for (char c : input) (c == '(') && nodes++;
+    int i = 0;
+    int j = 0;
+    while (i < nodes) {
+        nds[i] = new Node(this->order);
+        string num;
+        bool found = false;
+        while (input[j] != ')') {
+            if (input[j] == ' ' || input[j] == '(') {
+                found = true;
+            } else {
+                num += input[j];
+                found = false;
+            }
+            if (found && num.length() > 0) {
+                nds[i]->keys[nds[i]->n] = stoi(num);
+                nds[i]->n++;
+            }
+            if (found) num = "";
+            j++;
+        }
+        nds[i]->print();
+        cout << endl;
+        j++;
+        i++;
+    }
+    /*for (int i = 0; i < nodes; i++) {
+        for (int s = 0; s < nds[i]->n; s++) {
+            cout << nds[i]->keys[s] << " ";
+        }
+        cout << endl;
+    }*/
+
+    /*
     cout << "num of nodes: "<< nodes << std::endl;
     int ob = 0, cb = 0;
     int deepest = 0;
     for (char c : input) {
         ((ob - cb) > deepest) && (deepest = ob - cb);
-        // if (depths[ob-cb].empty()) depths[ob-cb] = ""; // not needed
         depths[ob-cb] += c;
         (c == '(') && ob++;
         (c == ')') && cb++;
     }
-
     if (deepest == 1) {
         this->root = new Node(this->order, true);
     } else {
         this->root = new Node(this->order, false);
     }
     bool leaf;
-    Node * temp = this->root;
     for (int i = 1; i < deepest+1; i++) {
         int test = 0;
         leaf = (deepest == i);
@@ -91,13 +129,15 @@ void BTree::loadTree() {
                 val = stoi(num);
                 // val  - one of the keys
                 // test - which node is that value
-                cout << val << " [" << test << "] ";
+                cout << val << " [" << test << " " << open << " " << close << "] ";
             }
         }
         cout << endl;
     }
-    cout << "deepest: " << deepest << endl;
-    cout << "end of load\n";
+    */
+
+    //cout << "deepest: " << deepest << endl;
+    cout << "end of load\n\n";
 }
 
 void BTree::saveTree() {
