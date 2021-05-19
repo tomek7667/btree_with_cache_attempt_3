@@ -61,24 +61,36 @@ void BTree::loadTree() {
         if (ob-cb > maximumDepth) maximumDepth = ob-cb;
         int i = iterators[ob-cb];
         input[ob-cb][i] = loader;
-        switch (input[ob-cb][i]) {
+        switch (loader) {
             case '(':
                 ob++;
                 break;
             case ')':
                 cb++;
                 break;
-            default:
-                break;
         }
     } while (loader != '\n' && loader != '\000' && loader != -1);
-    std::cout << "max depth: " << maximumDepth << std::endl;
-    if (maximumDepth == 1) {
+    //std::cout << "max depth: " << maximumDepth << std::endl;
+    for (int i = 1; i < maximumDepth+1; i++) {
+        int m = iterators[i];
+        for (int j = 1; j < m; j++) {
+            char number[128];
+            int l = 0;
+            while (input[i][j] != ' ' && input[i][j] != '(' && input[i][j] != ')') {
+                number[l] = input[i][j];
+                l++;
+                j++;
+            }
+            if (l > 0) this->insert(atoi(number));
+        }
+    }
+    /*if (maximumDepth == 1) {
         this->root = new Node(this->order, true);
     } else {
         this->root = new Node(this->order, false);
     }
     for (int i = 1; i < maximumDepth+1; i++) {
+        bool leaf = (maximumDepth==i);
         int m = iterators[i];
         if (i == 1) {
             for (int j = 1; j < m; j++) {
@@ -96,20 +108,25 @@ void BTree::loadTree() {
             }
         } else {
             std::cout << "layer nr" << i << "\n";
-            for (int j = 1; j < m; j++) {
-                //std::cout << input[i][j];
-                switch (input[i][j]) {
-                    case '(': case ')': case ' ':
-                        break;
-                    default:
-                        std::cout << "l:" << input[i][j] << " \n";
-                        break;
+            Node * temp = this->root;
+            for (int k = 0; k < 2*this->order; k++) { // W ZALEZNOSCI OD TEGO CO OBARA NAPISZE 2*t-1 lub 2*t
+                //temp = temp->sons[k];
+                temp->sons[k] = new Node(this->order, leaf);
+                temp = temp->sons[k];
+                for (int j = 1; j < m; j++) {
+
                 }
             }
+            for (int j = 1; j < m; j++) {
+                std::cout << input[i][j];
+            }
+            std::cout << std::endl;
         }
 
     }
-    std::cout << "koniec\n";
-    int asd = 0;
+    */
 }
 
+void BTree::saveTree() {
+    if (this->root != nullptr) this->root->save();
+}

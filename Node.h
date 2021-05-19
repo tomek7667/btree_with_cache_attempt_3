@@ -15,6 +15,7 @@ public:
     Node(int order, bool leaf=true);
     int position_of_key(int val) const;
     void print();
+    void save();
     void split(Node * left, int i);
     void add_non_full(int val);
 };

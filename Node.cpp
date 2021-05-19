@@ -8,8 +8,8 @@
 Node::Node(int order, bool leaf) {
     this->isLeaf = leaf;
     this->t = order;
-    this->keys = new int[2 * this->t];
-    this->sons = new Node*[2 * this->t - 1];
+    this->keys = new int[2 * this->t - 1];
+    this->sons = new Node*[2 * this->t];
 }
 
 int Node::position_of_key(int val) const {
@@ -44,7 +44,17 @@ void Node::print() {
         std::cout << this->keys[i] << " ";
     }
     if (!this->isLeaf) this->sons[i]->print();
+}
 
+void Node::save() {
+    int i;
+    std::cout << "( ";
+    for (i = 0; i < this->n; i++) {
+        if (!this->isLeaf) this->sons[i]->save();
+        std::cout << this->keys[i] << " ";
+    }
+    std::cout << ") ";
+    if (!this->isLeaf) this->sons[i]->save();
 }
 
 void Node::add_non_full(int val) {

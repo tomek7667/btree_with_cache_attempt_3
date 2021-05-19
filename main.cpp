@@ -26,6 +26,8 @@ int main() {
             tree = BTree(order);
             tree.loadTree();
         } else if (choice == 'S') {
+            cout << tree.order << endl;
+            tree.saveTree();
             // TODO:
         } else if (choice == 'R') {
             cin >> val;
