@@ -68,8 +68,17 @@ void BTree::loadTree() {
         (c == '(') && ob++;
         (c == ')') && cb++;
     }
+
+    if (deepest == 1) {
+        this->root = new Node(this->order, true);
+    } else {
+        this->root = new Node(this->order, false);
+    }
+    bool leaf;
+    Node * temp = this->root;
     for (int i = 1; i < deepest+1; i++) {
         int test = 0;
+        leaf = (deepest == i);
         for (int c = 0; c < depths[i].length(); c++) {
             string num;
             int val;
@@ -80,6 +89,8 @@ void BTree::loadTree() {
             }
             if (num.length() > 0) {
                 val = stoi(num);
+                // val  - one of the keys
+                // test - which node is that value
                 cout << val << " [" << test << "] ";
             }
         }
