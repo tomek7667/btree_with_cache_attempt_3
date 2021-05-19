@@ -69,27 +69,32 @@ void BTree::loadTree() {
     int i = 0;
     int j = 0;
     while (i < nodes) {
+        cout << "node numer:" << i;
         nds[i] = new Node(this->order);
         string num;
         bool found = false;
-        while (input[j] != ')') {
-            if (input[j] == ' ' || input[j] == '(') {
+        while (input[j] != ')' || input[j] != '(') {
+            if (input[j] == ' ' || input[j] == '(' || input[j] == ')') {
                 found = true;
             } else {
                 num += input[j];
                 found = false;
             }
             if (found && num.length() > 0) {
+                cout <<"CO TY DAJESZ:" << num << endl;
                 nds[i]->keys[nds[i]->n] = stoi(num);
                 nds[i]->n++;
             }
             if (found) num = "";
             j++;
         }
-        nds[i]->print();
-        cout << endl;
+        cout << "ADSADSADSADS\n";
         j++;
-        i++;
+        if (nds[i]->n != 0) {
+            nds[i]->print();
+            cout << endl;
+            i++;
+        }
     }
     /*for (int i = 0; i < nodes; i++) {
         for (int s = 0; s < nds[i]->n; s++) {
