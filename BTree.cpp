@@ -39,7 +39,7 @@ void BTree::print() {
 }
 
 bool BTree::search(int val) {
-    Node * temp = root;
+    Node * temp = this->root;
     while (!temp->isLeaf) {
         int position = 0;
         while (position < temp->n && val > temp->keys[position]) position++;
@@ -145,6 +145,74 @@ void BTree::loadTree() {
     cout << "end of load\n\n";
 }
 
-void BTree::saveTree() {
+void BTree::saveTree() const {
     if (this->root != nullptr) this->root->save();
+}
+
+bool isInArray(const int * array, int val, int size) {
+    for (int i = 0; i < size; i++) {
+        if (array[i] == val) return true;
+    }
+    return false;
+}
+
+void appendFIFO(int * array, int val, int * size, int max_size) {
+    if ((*size) != max_size) {
+        array[(*size)] = val;
+        (*size)++;
+    } else {
+        for (int i = 0; i < *size; i++) array[i] = array[i+1];
+        array[(*size)-1] = val;
+    }
+}
+
+void printFIFO(int * array, int size) {
+    for (int i = 0; i < size; i++) {
+        cout << array[i] << " ";
+    }
+    cout << endl;
+}
+
+bool BTree::measure_fifo_cache(int val, int * gos) {
+    Node * temp = root;
+    (*gos)++;
+    while (!temp->isLeaf) {
+        int position = 0;
+        while (position < temp->n && val > temp->keys[position]) position++;
+        if (val == temp->keys[position]) return true;
+        (*gos)++;
+        temp = temp->sons[position];
+    }
+    for (int i = 0; i < temp->n; i++)
+        if (temp->keys[i] == val) return true;
+    return false;
+}
+
+void BTree::fifo_cache(int c_size) {
+    string input;
+    cin.ignore();
+    getline(cin, input);
+    int * cache = new int[c_size];
+    int nm = 0;
+    int no_cache_operations = 0;
+    int cache_operations = 0;
+    for (int i = 0; i < input.length(); i++) {
+        string num;
+        int val;
+        while (input[i] != ' ') {
+            num += input[i];
+            i++;
+        }
+        if (num.length() > 0) {
+            val = stoi(num);
+            if (!isInArray(cache, val, nm)) {
+                appendFIFO(cache, val, &nm, c_size);
+                measure_fifo_cache(val, &cache_operations);
+                measure_fifo_cache(val, &no_cache_operations);
+            } else {
+                measure_fifo_cache(val, &no_cache_operations);
+            }
+        }
+    }
+    cout << "NO CACHE: " << no_cache_operations << " CACHE: " << cache_operations << endl;
 }

@@ -39,7 +39,10 @@ int main() {
             // TODO:
             return 1;
         } else if (choice == 'C') {
-            // TODO:
+            cin >> val;
+            tree.fifo_cache(val);
+        } else if (choice == 'K') { // my implementation of cache TLUO - The Least Used Out
+            cin >> val;
         } else {
             cout << "Nie znam komendy : " << choice << endl;
         }

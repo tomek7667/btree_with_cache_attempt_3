@@ -20,7 +20,10 @@ public:
     bool search(int val);
 
     void loadTree();
-    void saveTree();
+    void saveTree() const;
+
+    void fifo_cache(int c_size);
+    bool measure_fifo_cache(int val, int *gos);
 };
 
 
