@@ -4,6 +4,8 @@
 
 #include "BTree.h"
 #include <iostream>
+#include <string>
+using namespace std;
 
 BTree::BTree(int order) {
     this->order = order;
@@ -50,81 +52,41 @@ bool BTree::search(int val) {
 }
 
 void BTree::loadTree() {
+    int nodes = 0;
+    string input;
+    string depths[1024];
+    cin.ignore();
+    getline(cin, input);
+    for (char c : input) (c == '(') && nodes++;
+    cout << "num of nodes: "<< nodes << std::endl;
     int ob = 0, cb = 0;
-    char input[1024][1024]; // depth - position
-    char loader = getchar();
-    int maximumDepth = 0;
-    int iterators[2048] = {};
-    do {
-        loader = getchar();
-        iterators[ob-cb]++;
-        if (ob-cb > maximumDepth) maximumDepth = ob-cb;
-        int i = iterators[ob-cb];
-        input[ob-cb][i] = loader;
-        switch (loader) {
-            case '(':
-                ob++;
-                break;
-            case ')':
-                cb++;
-                break;
-        }
-    } while (loader != '\n' && loader != '\000' && loader != -1);
-    //std::cout << "max depth: " << maximumDepth << std::endl;
-    for (int i = 1; i < maximumDepth+1; i++) {
-        int m = iterators[i];
-        for (int j = 1; j < m; j++) {
-            char number[128];
-            int l = 0;
-            while (input[i][j] != ' ' && input[i][j] != '(' && input[i][j] != ')') {
-                number[l] = input[i][j];
-                l++;
-                j++;
-            }
-            if (l > 0) this->insert(atoi(number));
-        }
+    int deepest = 0;
+    for (char c : input) {
+        ((ob - cb) > deepest) && (deepest = ob - cb);
+        // if (depths[ob-cb].empty()) depths[ob-cb] = ""; // not needed
+        depths[ob-cb] += c;
+        (c == '(') && ob++;
+        (c == ')') && cb++;
     }
-    /*if (maximumDepth == 1) {
-        this->root = new Node(this->order, true);
-    } else {
-        this->root = new Node(this->order, false);
-    }
-    for (int i = 1; i < maximumDepth+1; i++) {
-        bool leaf = (maximumDepth==i);
-        int m = iterators[i];
-        if (i == 1) {
-            for (int j = 1; j < m; j++) {
-                char number[128];
-                int l = 0;
-                while (input[i][j] != ' ' && input[i][j] != '(' && input[i][j] != ')') {
-                    number[l] = input[i][j];
-                    l++;
-                    j++;
-                }
-                if (l > 0) {
-                    this->root->keys[this->root->n] = atoi(number);
-                    this->root->n++;
-                }
+    for (int i = 1; i < deepest+1; i++) {
+        int test = 0;
+        for (int c = 0; c < depths[i].length(); c++) {
+            string num;
+            int val;
+            if (depths[i][c] == '(' || depths[i][c] == ')') test++;
+            while (depths[i][c] != ' ' && depths[i][c] != '(' && depths[i][c] != ')') {
+                num += depths[i][c];
+                c++;
             }
-        } else {
-            std::cout << "layer nr" << i << "\n";
-            Node * temp = this->root;
-            for (int k = 0; k < 2*this->order; k++) { // W ZALEZNOSCI OD TEGO CO OBARA NAPISZE 2*t-1 lub 2*t
-                //temp = temp->sons[k];
-                temp->sons[k] = new Node(this->order, leaf);
-                temp = temp->sons[k];
-                for (int j = 1; j < m; j++) {
-
-                }
+            if (num.length() > 0) {
+                val = stoi(num);
+                cout << val << " [" << test << "] ";
             }
-            for (int j = 1; j < m; j++) {
-                std::cout << input[i][j];
-            }
-            std::cout << std::endl;
         }
-
+        cout << endl;
     }
-    */
+    cout << "deepest: " << deepest << endl;
+    cout << "end of load\n";
 }
 
 void BTree::saveTree() {

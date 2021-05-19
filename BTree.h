@@ -20,7 +20,6 @@ public:
     bool search(int val);
 
     void loadTree();
-
     void saveTree();
 };
 
