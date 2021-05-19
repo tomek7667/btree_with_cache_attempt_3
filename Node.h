@@ -17,6 +17,10 @@ public:
     void save();
     void split(Node * left, int i);
     void add_non_full(int val);
+
+    void loadNodes();
+
+    void fix_itself();
 };
 
 
