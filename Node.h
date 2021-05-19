@@ -13,7 +13,6 @@ public:
     int n = 0, t = 0;
     bool isLeaf;
     Node(int order, bool leaf=true);
-    int position_of_key(int val) const;
     void print();
     void save();
     void split(Node * left, int i);
