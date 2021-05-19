@@ -199,7 +199,7 @@ void BTree::fifo_cache(int c_size) {
     for (int i = 0; i < input.length(); i++) {
         string num;
         int val;
-        while (input[i] != ' ') {
+        while (input[i] != ' ' && i < input.length()) {
             num += input[i];
             i++;
         }
