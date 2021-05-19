@@ -26,6 +26,8 @@ void Node::split(Node *left, int i) {
     for (int k = this->n; k >= i+1; k--) // shift all pointers to the right to create space
         this->sons[k+1] = this->sons[k];
     this->sons[i+1] = right;
+    for (int k = this->n - 1; k >= i; k--)
+        this->keys[k + 1] = this->keys[k];
     this->keys[i] = left->keys[this->t-1];
     this->n++;
 }
