@@ -18,6 +18,8 @@ public:
     void insert(int val);
     void print();
     bool search(int val);
+
+    void loadTree();
 };
 
 

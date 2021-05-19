@@ -24,6 +24,7 @@ int main() {
         } else if (choice == 'L') {
             cin >> order;
             tree = BTree(order);
+            tree.loadTree();
         } else if (choice == 'S') {
             // TODO:
         } else if (choice == 'R') {

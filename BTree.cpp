@@ -49,3 +49,67 @@ bool BTree::search(int val) {
     return false;
 }
 
+void BTree::loadTree() {
+    int ob = 0, cb = 0;
+    char input[1024][1024]; // depth - position
+    char loader = getchar();
+    int maximumDepth = 0;
+    int iterators[2048] = {};
+    do {
+        loader = getchar();
+        iterators[ob-cb]++;
+        if (ob-cb > maximumDepth) maximumDepth = ob-cb;
+        int i = iterators[ob-cb];
+        input[ob-cb][i] = loader;
+        switch (input[ob-cb][i]) {
+            case '(':
+                ob++;
+                break;
+            case ')':
+                cb++;
+                break;
+            default:
+                break;
+        }
+    } while (loader != '\n' && loader != '\000' && loader != -1);
+    std::cout << "max depth: " << maximumDepth << std::endl;
+    if (maximumDepth == 1) {
+        this->root = new Node(this->order, true);
+    } else {
+        this->root = new Node(this->order, false);
+    }
+    for (int i = 1; i < maximumDepth+1; i++) {
+        int m = iterators[i];
+        if (i == 1) {
+            for (int j = 1; j < m; j++) {
+                char number[128];
+                int l = 0;
+                while (input[i][j] != ' ' && input[i][j] != '(' && input[i][j] != ')') {
+                    number[l] = input[i][j];
+                    l++;
+                    j++;
+                }
+                if (l > 0) {
+                    this->root->keys[this->root->n] = atoi(number);
+                    this->root->n++;
+                }
+            }
+        } else {
+            std::cout << "layer nr" << i << "\n";
+            for (int j = 1; j < m; j++) {
+                //std::cout << input[i][j];
+                switch (input[i][j]) {
+                    case '(': case ')': case ' ':
+                        break;
+                    default:
+                        std::cout << "l:" << input[i][j] << " \n";
+                        break;
+                }
+            }
+        }
+
+    }
+    std::cout << "koniec\n";
+    int asd = 0;
+}
+
