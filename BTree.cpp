@@ -173,7 +173,7 @@ void printFIFO(int * array, int size) {
     cout << endl;
 }
 
-bool BTree::measure_fifo_cache(int val, int * gos) {
+bool BTree::measure_cache(int val, int * gos) {
     Node * temp = root;
     (*gos)++;
     while (!temp->isLeaf) {
@@ -207,10 +207,79 @@ void BTree::fifo_cache(int c_size) {
             val = stoi(num);
             if (!isInArray(cache, val, nm)) {
                 appendFIFO(cache, val, &nm, c_size);
-                measure_fifo_cache(val, &cache_operations);
-                measure_fifo_cache(val, &no_cache_operations);
+                measure_cache(val, &cache_operations);
+                measure_cache(val, &no_cache_operations);
             } else {
-                measure_fifo_cache(val, &no_cache_operations);
+                measure_cache(val, &no_cache_operations);
+            }
+        }
+    }
+    cout << "NO CACHE: " << no_cache_operations << " CACHE: " << cache_operations << endl;
+}
+
+int positionOfVal(int ** array, int size, int val) {
+    for (int i = 0; i < size; i++) {
+        if (array[i][0] == val) return i;
+    }
+}
+
+int positionOfLeastUsed(int ** array, int size) {
+    int smallest = array[0][1];
+    int position = 0;
+    for (int i = 0; i < size; i++) {
+        if (smallest > array[i][1]) {
+            position = i;
+            smallest = array[i][1];
+        }
+    }
+    return position;
+}
+
+void appendTLUO(int ** array, int val, int * size, int max_size) {
+    if ((*size) != max_size) {
+        array[(*size)][0] = val;
+        array[(*size)][1] = 1;
+        (*size)++;
+    } else {
+        int leastUsed = positionOfLeastUsed(array, (*size));
+        array[leastUsed][1] = 1;
+        array[leastUsed][0] = val;
+    }
+}
+
+bool isInArrayTLUO(int ** array, int val, int size) {
+    for (int i = 0; i < size; i++) {
+        if (array[i][0] == val) return true;
+    }
+    return false;
+}
+
+void BTree::tluo_cache(int c_size) {
+    string input;
+    cin.ignore();
+    getline(cin, input);
+    int ** cache = new int*[c_size];
+    for (int i = 0; i < c_size; i++) cache[i] = new int[2]{};
+    int nm = 0;
+    int no_cache_operations = 0;
+    int cache_operations = 0;
+    for (int i = 0; i < input.length(); i++) {
+        string num;
+        int val;
+        while (input[i] != ' ' && i < input.length()) {
+            num += input[i];
+            i++;
+        }
+        if (num.length() > 0) {
+            val = stoi(num);
+            if (!isInArrayTLUO(cache, val, nm)) {
+                appendTLUO(cache, val, &nm, c_size);
+                measure_cache(val, &cache_operations);
+                measure_cache(val, &no_cache_operations);
+            } else {
+                int pos = positionOfVal(cache, nm, val);
+                cache[pos][1]++;
+                measure_cache(val, &no_cache_operations);
             }
         }
     }

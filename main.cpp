@@ -43,6 +43,7 @@ int main() {
             tree.fifo_cache(val);
         } else if (choice == 'K') { // my implementation of cache TLUO - The Least Used Out
             cin >> val;
+            tree.tluo_cache(val);
         } else {
             cout << "Nie znam komendy : " << choice << endl;
         }

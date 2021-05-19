@@ -23,7 +23,9 @@ public:
     void saveTree() const;
 
     void fifo_cache(int c_size);
-    bool measure_fifo_cache(int val, int *gos);
+    bool measure_cache(int val, int *gos);
+
+    void tluo_cache(int c_size);
 };
 
 
