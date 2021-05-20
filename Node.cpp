@@ -73,39 +73,25 @@ void Node::add_non_full(int val) {
     }
 }
 
-bool isNumber(const string& str)
-{
-    for (char const &c : str) if (std::isdigit(c) == 0) return false;
-    return true;
+bool isNumber(string s) {
+    return (!s.empty() && s.find_first_not_of("0123456789") == string::npos);
 }
 
 void Node::loadNodes() {
     int l = 0;
     string s;
-    while (cin >> s && (s == "(" || s == ")" || isNumber(s))) {
+    cin.ignore();
+    while (cin >> s) {
         if (s == "(") {
-            //cout << this->n << "\n";
-            this->n++;
-            this->sons[this->n-1] = new Node(this->t, false);
-            this->sons[this->n-1]->loadNodes();
-            //cout << endl;
+            this->isLeaf = false;
+            this->sons[l] = new Node(this->t, true);
+            this->sons[l]->loadNodes();
+            l++;
         } else if (s == ")") {
             return;
         } else if (isNumber(s)){
-            //cout << s << " ";
-            this->keys[l] = stoi(s);
-            l++;
+            this->keys[this->n] = stoi(s);
+            this->n++;
         }
     }
 }
-
-void Node::fix_itself() {
-    if (!this->sons[0]) {
-        this->sons[0]->fix_itself();
-    } else {
-        this->isLeaf = true;
-    }
-}
-
-
-

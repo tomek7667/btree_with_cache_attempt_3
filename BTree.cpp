@@ -53,9 +53,10 @@ bool BTree::search(int val) {
 
 void BTree::loadTree() {
     this->root = new Node(this->order, false);
+    string input;
+    cin.ignore();
+    cin >> input;
     this->root->loadNodes();
-    this->root->fix_itself();
-    cout <<" IS ROOT a LEAF? : " << this->root->isLeaf << endl;
 }
 
 void BTree::saveTree() const {
