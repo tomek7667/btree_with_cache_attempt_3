@@ -200,3 +200,7 @@ void BTree::tluo_cache(int c_size) {
     }
     cout << "NO CACHE: " << no_cache_operations << " CACHE: " << cache_operations << endl;
 }
+
+void BTree::remove(int val) {
+
+}

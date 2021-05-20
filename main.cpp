@@ -28,15 +28,13 @@ int main() {
         } else if (choice == 'S') {
             cout << tree.order << endl;
             tree.saveTree();
-            // TODO:
         } else if (choice == 'R') {
             cin >> val;
-            //tree.remove(val);TODO:
+            tree.remove(val);
         } else if (choice == '#') {
             ;;
         } else if (choice == 'X') {
             //while (tree.root != nullptr) tree.remove(tree.root->keys[tree.root->currentKeys - 1]);
-            // TODO:
             return 1;
         } else if (choice == 'C') {
             cin >> val;
