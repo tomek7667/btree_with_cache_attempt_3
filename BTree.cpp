@@ -60,6 +60,7 @@ void BTree::loadTree() {
 
 void BTree::saveTree() const {
     if (this->root != nullptr) this->root->save();
+    cout << endl;
 }
 
 

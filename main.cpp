@@ -1,5 +1,6 @@
 #include <iostream>
 #include "BTree.h"
+#include <string>
 using namespace std;
 
 int main() {
