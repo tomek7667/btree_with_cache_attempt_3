@@ -52,7 +52,7 @@ bool BTree::search(int val) {
 }
 
 void BTree::loadTree() {
-    this->root = new Node(this->order, false);
+    this->root = new Node(this->order, true);
     string input;
     cin >> input;
     this->root->loadNodes();
