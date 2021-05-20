@@ -202,5 +202,12 @@ void BTree::tluo_cache(int c_size) {
 }
 
 void BTree::remove(int val) {
-
+    if (!this->root) return;
+    this->root->remove(val);
+    if (this->root->n == 0) {
+        Node * temp = this->root;
+        if (this->root->isLeaf) this->root = nullptr;
+        else this->root = this->root->sons[0];
+        delete temp;
+    }
 }

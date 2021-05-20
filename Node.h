@@ -18,6 +18,21 @@ public:
     void split(Node * left, int i);
     void add_non_full(int val);
     void loadNodes();
+
+    void remove(int val);
+    int get_index_of_key(int val);
+
+    void remove_from_leaf(int index);
+
+    void remove_from_non_leaf(int index);
+
+    int get_left(int index);
+
+    int get_right(int index);
+
+    void merge(int index);
+
+    void fill(int index);
 };
 
 

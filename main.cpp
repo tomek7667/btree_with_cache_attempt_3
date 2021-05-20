@@ -32,7 +32,9 @@ int main() {
             cin >> val;
             tree.remove(val);
         } else if (choice == '#') {
-            ;;
+            string temp;
+            cin.ignore();
+            cin >> temp;
         } else if (choice == 'X') {
             //while (tree.root != nullptr) tree.remove(tree.root->keys[tree.root->currentKeys - 1]);
             return 1;

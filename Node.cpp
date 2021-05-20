@@ -96,3 +96,114 @@ void Node::loadNodes() {
         }
     }
 }
+
+void Node::remove(int val) {
+    int index = this->get_index_of_key(val);
+    if (index < this->n && this->keys[index] == val) { // when value is in the node
+        if (this->isLeaf) this->remove_from_leaf(index);
+        else this->remove_from_non_leaf(index);
+    } else {
+        if (this->isLeaf) return;
+        bool last_child = (index == this->n);
+        if (this->sons[index]->n < this->t) this->fill(index);
+        if (last_child && index > this->n) this->sons[index-1]->remove(val);
+        else this->sons[index]->remove(val);
+    }
+}
+
+int Node::get_index_of_key(int val) {
+    int k = 0;
+    while (k < this->n && this->keys[k] < val) k++;
+    return k;
+}
+
+void Node::remove_from_leaf(int index) {
+    for (int i = index + 1; i < this->n; i++) this->keys[i - 1] = this->keys[i];
+    this->n--;
+}
+
+void Node::remove_from_non_leaf(int index) {
+    int key = this->keys[index];
+    if (this->sons[index]->n >= this->t) {
+        int predecessor = get_left(index);
+        this->keys[index] = predecessor;
+        this->sons[index]->remove(predecessor);
+    } else if (this->sons[index+1]->n >= this->t) {
+        int successor = get_right(index);
+        this->keys[index] = successor;
+        this->sons[index+1]->remove(successor);
+    } else {
+        this->merge(index);
+        this->sons[index]->remove(key);
+    }
+}
+
+int Node::get_left(int index) {
+    Node * temp = this->sons[index];
+    while (!temp->isLeaf) temp = temp->sons[temp->n];
+    int last = temp->n-1;
+    return temp->keys[last];
+}
+
+int Node::get_right(int index) {
+    Node * temp = this->sons[index+1];
+    while (!temp->isLeaf) temp = temp->sons[0];
+    return temp->keys[0];
+}
+
+void Node::merge(int index) {
+    Node * son = this->sons[index];
+    Node * to_delete = this->sons[index+1];
+    son->keys[this->t-1] = this->keys[index];
+    for (int i = 0; i < to_delete->n; i++)
+        son->keys[i+this->t] = to_delete->keys[i];
+    if (!son->isLeaf) {
+        for (int i = 0; i <= to_delete->n; i++)
+            son->sons[i+this->t] = to_delete->sons[i];
+    }
+    for (int i = index + 1; i < this->n; i++)
+        this->keys[i-1] = this->keys[i];
+    for (int i = index+2; i <= this->n; i++)
+        this->sons[i-1] = this->sons[i];
+    son->n += to_delete->n;
+    this->n--;
+    delete to_delete;
+}
+
+void Node::fill(int index) {
+    Node *son = this->sons[index], *neighbour;
+
+    if (index != 0 && this->sons[index - 1]->n >= this->t) {
+        neighbour = this->sons[index - 1];
+        for (int i = son->n - 1; i >= 0; i--)
+            son->keys[i + 1] = son->keys[i];
+        if (!son->isLeaf) {
+            for (int i = son->n; i >= 0; i--)
+                son->sons[i + 1] = son->sons[i];
+        }
+        son->keys[0] = this->keys[index - 1];
+        if (!son->isLeaf)
+            son->sons[0] = neighbour->sons[neighbour->n];
+        this->keys[index - 1] = neighbour->keys[neighbour->n - 1];
+        son->n++;
+        neighbour->n--;
+    } else if (index != this->n && this->sons[index + 1]->n >= this->t){
+        neighbour = this->sons[index + 1];
+        son->keys[son->n] = this->keys[index];
+        if (!son->isLeaf)
+            son->sons[son->n+1] = neighbour->sons[0];
+        this->keys[index] = neighbour->keys[0];
+        for (int i = 1; i < neighbour->n; i++)
+            neighbour->keys[i-1] = neighbour->keys[i];
+
+        if (!neighbour->isLeaf) {
+            for (int i = 1; i <= neighbour->n; i++)
+                neighbour->sons[i-1] = neighbour->sons[i];
+        }
+        son->n++;
+        neighbour->n--;
+    } else {
+        if (index != this->n) this->merge(index);
+        else this->merge(index - 1);
+    }
+}
