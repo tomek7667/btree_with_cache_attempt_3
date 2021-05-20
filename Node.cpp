@@ -154,9 +154,9 @@ int Node::get_right(int index) {
 void Node::merge(int index) {
     Node * son = this->sons[index];
     Node * to_delete = this->sons[index+1];
-    son->keys[this->t-1] = this->keys[index];
+    son->keys[son->n] = this->keys[index];
     for (int i = 0; i < to_delete->n; i++)
-        son->keys[i+this->t] = to_delete->keys[i];
+        son->keys[i+son->n+1] = to_delete->keys[i];
     if (!son->isLeaf) {
         for (int i = 0; i <= to_delete->n; i++)
             son->sons[i+this->t] = to_delete->sons[i];
