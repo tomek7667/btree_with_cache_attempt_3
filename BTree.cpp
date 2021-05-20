@@ -135,6 +135,7 @@ int positionOfVal(int ** array, int size, int val) {
     for (int i = 0; i < size; i++) {
         if (array[i][0] == val) return i;
     }
+    return -1;
 }
 
 int positionOfLeastUsed(int ** array, int size) {
