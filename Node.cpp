@@ -165,7 +165,7 @@ void Node::merge(int index) {
         this->keys[i-1] = this->keys[i];
     for (int i = index+2; i <= this->n; i++)
         this->sons[i-1] = this->sons[i];
-    son->n += to_delete->n;
+    son->n += to_delete->n + 1;
     this->n--;
     delete to_delete;
 }
