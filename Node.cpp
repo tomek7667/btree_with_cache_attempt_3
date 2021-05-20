@@ -50,8 +50,9 @@ void Node::save() {
         if (!this->isLeaf) this->sons[i]->save();
         cout << this->keys[i] << " ";
     }
-    cout << ") ";
+    //cout << ") ";
     if (!this->isLeaf) this->sons[i]->save();
+    cout << ") ";
 }
 
 void Node::add_non_full(int val) {
@@ -80,7 +81,7 @@ bool isNumber(string s) {
 void Node::loadNodes() {
     int l = 0;
     string s;
-    cin.ignore();
+    //cin.ignore();
     while (cin >> s) {
         if (s == "(") {
             this->isLeaf = false;
