@@ -12,7 +12,7 @@ public:
     int * keys;
     int n = 0, t = 0;
     bool isLeaf;
-    Node(int order, bool leaf=true);
+    explicit Node(int order, bool leaf=true);
     void print() const;
     void save() const;
     void split(Node * left, int i);

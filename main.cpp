@@ -37,8 +37,8 @@ int main() {
             cin.ignore();
             cin >> temp;
         } else if (choice == 'X') {
+            // deallocation of tree
             while (tree.root != nullptr) tree.remove(tree.root->keys[tree.root->n-1]);
-            //tree.remove(tree.root->keys[tree.root->n-1]);
             return 1;
         } else if (choice == 'C') {
             cin >> val;

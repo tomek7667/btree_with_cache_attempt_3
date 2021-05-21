@@ -16,14 +16,14 @@ public:
     explicit BTree(int order);
     // insertion functions
     void insert(int val);
-    void print();
-    bool search(int val);
+    void print() const;
+    bool search(int val) const;
 
     void loadTree();
     void saveTree() const;
 
-    void fifo_cache(int c_size);
-    void tluo_cache(int c_size);
+    void fifo_cache(int c_size) const;
+    void tluo_cache(int c_size) const;
     bool measure_cache(int val, int *gos) const;
 
     void remove(int val);

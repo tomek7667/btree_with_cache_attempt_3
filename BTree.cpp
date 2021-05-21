@@ -34,11 +34,11 @@ void BTree::insert(int val) {
     }
 }
 
-void BTree::print() {
+void BTree::print() const {
     if (this->root != nullptr) this->root->print();
 }
 
-bool BTree::search(int val) {
+bool BTree::search(int val) const {
     Node * temp = this->root;
     while (!temp->isLeaf) {
         int position = 0;
@@ -103,7 +103,7 @@ bool BTree::measure_cache(int val, int * gos) const {
     return false;
 }
 
-void BTree::fifo_cache(int c_size) {
+void BTree::fifo_cache(int c_size) const {
     string input;
     cin.ignore();
     getline(cin, input);
@@ -169,7 +169,7 @@ bool isInArrayTLUO(int ** array, int val, int size) {
     return false;
 }
 
-void BTree::tluo_cache(int c_size) {
+void BTree::tluo_cache(int c_size) const {
     string input;
     cin.ignore();
     getline(cin, input);
