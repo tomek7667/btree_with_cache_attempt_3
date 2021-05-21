@@ -34,7 +34,7 @@ void Node::split(Node *left, int i) {
     this->n++;
 }
 
-void Node::print() {
+void Node::print() const {
     int i;
     for (i = 0; i < this->n; i++) {
         if (!this->isLeaf) this->sons[i]->print();
@@ -43,7 +43,7 @@ void Node::print() {
     if (!this->isLeaf) this->sons[i]->print();
 }
 
-void Node::save() {
+void Node::save() const {
     int i;
     cout << "( ";
     for (i = 0; i < this->n; i++) {
@@ -74,7 +74,7 @@ void Node::add_non_full(int val) {
     }
 }
 
-bool isNumber(string s) {
+bool isNumber(const string& s) {
     return (!s.empty() && s.find_first_not_of("0123456789") == string::npos);
 }
 
@@ -117,7 +117,7 @@ void Node::remove(int val) {
                 this->merge(index);
                 this->sons[index]->remove(key);
             }
-        };
+        }
     } else {
         if (this->isLeaf) return;
         bool last_child = (index == this->n);
@@ -127,20 +127,20 @@ void Node::remove(int val) {
     }
 }
 
-int Node::get_index_of_key(int val) {
+int Node::get_index_of_key(int val) const {
     int k = 0;
     while (k < this->n && this->keys[k] < val) k++;
     return k;
 }
 
-int Node::get_left(int index) {
+int Node::get_left(int index) const {
     Node * temp = this->sons[index];
     while (!temp->isLeaf) temp = temp->sons[temp->n];
     int last = temp->n-1;
     return temp->keys[last];
 }
 
-int Node::get_right(int index) {
+int Node::get_right(int index) const {
     Node * temp = this->sons[index+1];
     while (!temp->isLeaf) temp = temp->sons[0];
     return temp->keys[0];

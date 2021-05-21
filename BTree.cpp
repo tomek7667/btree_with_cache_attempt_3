@@ -88,7 +88,7 @@ void printFIFO(int * array, int size) {
     cout << endl;
 }
 
-bool BTree::measure_cache(int val, int * gos) {
+bool BTree::measure_cache(int val, int * gos) const {
     Node * temp = root;
     (*gos)++;
     while (!temp->isLeaf) {
@@ -111,15 +111,14 @@ void BTree::fifo_cache(int c_size) {
     int nm = 0;
     int no_cache_operations = 0;
     int cache_operations = 0;
-    for (int i = 0; i < input.length(); i++) {
+    for (int i = 0; i < (int)input.length(); i++) {
         string num;
-        int val;
-        while (input[i] != ' ' && i < input.length()) {
+        while (i < (int)input.length() && input[i] != ' ') {
             num += input[i];
             i++;
         }
         if (num.length() > 0) {
-            val = stoi(num);
+            int val = stoi(num);
             if (!isInArray(cache, val, nm)) {
                 appendFIFO(cache, val, &nm, c_size);
                 measure_cache(val, &cache_operations);
@@ -179,15 +178,14 @@ void BTree::tluo_cache(int c_size) {
     int nm = 0;
     int no_cache_operations = 0;
     int cache_operations = 0;
-    for (int i = 0; i < input.length(); i++) {
+    for (int i = 0; i < (int)input.length(); i++) {
         string num;
-        int val;
-        while (input[i] != ' ' && i < input.length()) {
+        while (i < (int)input.length() && input[i] != ' ') {
             num += input[i];
             i++;
         }
         if (num.length() > 0) {
-            val = stoi(num);
+            int val = stoi(num);
             if (!isInArrayTLUO(cache, val, nm)) {
                 appendTLUO(cache, val, &nm, c_size); // The Least Used Out
                 measure_cache(val, &cache_operations);

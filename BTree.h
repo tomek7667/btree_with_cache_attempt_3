@@ -13,7 +13,7 @@ public:
     int order = 0;
     Node * root = nullptr;
     BTree();
-    BTree(int order);
+    explicit BTree(int order);
     // insertion functions
     void insert(int val);
     void print();
@@ -24,7 +24,7 @@ public:
 
     void fifo_cache(int c_size);
     void tluo_cache(int c_size);
-    bool measure_cache(int val, int *gos);
+    bool measure_cache(int val, int *gos) const;
 
     void remove(int val);
 };
