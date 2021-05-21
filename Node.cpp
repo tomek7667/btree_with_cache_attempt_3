@@ -100,8 +100,24 @@ void Node::loadNodes() {
 void Node::remove(int val) {
     int index = this->get_index_of_key(val);
     if (index < this->n && this->keys[index] == val) { // when value is in the node
-        if (this->isLeaf) this->remove_from_leaf(index);
-        else this->remove_from_non_leaf(index);
+        if (this->isLeaf) {
+            for (int i = index + 1; i < this->n; i++) this->keys[i - 1] = this->keys[i];
+            this->n--;
+        } else {
+            int key = this->keys[index];
+            if (this->sons[index]->n >= this->t) {
+                int left = get_left(index);
+                this->keys[index] = left;
+                this->sons[index]->remove(left);
+            } else if (this->sons[index+1]->n >= this->t) {
+                int right = get_right(index);
+                this->keys[index] = right;
+                this->sons[index+1]->remove(right);
+            } else {
+                this->merge(index);
+                this->sons[index]->remove(key);
+            }
+        };
     } else {
         if (this->isLeaf) return;
         bool last_child = (index == this->n);
@@ -115,27 +131,6 @@ int Node::get_index_of_key(int val) {
     int k = 0;
     while (k < this->n && this->keys[k] < val) k++;
     return k;
-}
-
-void Node::remove_from_leaf(int index) {
-    for (int i = index + 1; i < this->n; i++) this->keys[i - 1] = this->keys[i];
-    this->n--;
-}
-
-void Node::remove_from_non_leaf(int index) {
-    int key = this->keys[index];
-    if (this->sons[index]->n >= this->t) {
-        int predecessor = get_left(index);
-        this->keys[index] = predecessor;
-        this->sons[index]->remove(predecessor);
-    } else if (this->sons[index+1]->n >= this->t) {
-        int successor = get_right(index);
-        this->keys[index] = successor;
-        this->sons[index+1]->remove(successor);
-    } else {
-        this->merge(index);
-        this->sons[index]->remove(key);
-    }
 }
 
 int Node::get_left(int index) {
